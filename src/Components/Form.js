@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function Form() {
+function Form({ dataSearch }) {
+
+    // state del componente
+    const [searchTerm, saveSearch] = useState({
+        city: '',
+        country: ''
+    });
 
     const handleChange = (e) => {
         // cambiar el state
+        saveSearch({
+            ...searchTerm,
+            [e.target.name] : e.target.value
+        });
+    }
+
+    const searchWeather = (e) => {
+        e.preventDefault();
+
+        // pasar al componente principal la búsqueda del usuario
+        dataSearch(searchTerm);
     }
 
     return (
-        <form>
+        <form
+            onSubmit={searchWeather}>
             <div className="input-field col s12">
                 <input
                     type="text"
@@ -19,7 +37,6 @@ function Form() {
             <div className="input-field col s12">
                 <select
                     name="country"
-                    id="country"
                     onChange={handleChange} >
                         <option value="">Select a country</option>
                         <option value="US">United States</option>
